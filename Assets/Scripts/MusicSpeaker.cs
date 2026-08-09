@@ -13,13 +13,30 @@ public class MusicSpeaker : MonoBehaviour
     public int currentTrack;
     public bool ison;
 
-    public void On()
+     public void On()
     {
-        ison = true;
-  
-        audioSource.Play();
+                if (audioSource == null)
+                    {
+            Debug.LogWarning("[MusicSpeaker] Cannot turn on: AudioSource is not assigned.");
+                        return;
+                    }
+        
+                 ison = true;
+        
+                if (audioSource.clip == null && audioClips != null && audioClips.Length > 0)
+                    {
+            currentTrack = Mathf.Clamp(currentTrack, 0, audioClips.Length - 1);
+            audioSource.clip = audioClips[currentTrack];
+                    }
+        
+                if (audioSource.clip == null)
+                    {
+            Debug.LogWarning("[MusicSpeaker] Cannot play: no AudioClip assigned on AudioSource or audioClips list.");
+                        return;
+                    }
+        
+                 audioSource.Play();
     }
-
     public void Off()
     {
         ison = false;

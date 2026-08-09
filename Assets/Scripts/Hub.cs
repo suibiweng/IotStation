@@ -114,7 +114,7 @@ public class Hub : MonoBehaviour
         string method = parts[0];
         string path = parts[1];
 
-        if (method != "POST")
+        if (method != "POST" && method != "GET")  
             return GetHttpResponse(405, "Method Not Allowed");
 
         // Extract body (JSON or form data)
